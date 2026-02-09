@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting… | Credible Technologies Apps</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>.redirect-page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }</style>
+</head>
+<body>
+  <div class="redirect-page">
+    <h1>Redirecting…</h1>
+    <p id="msg">If you are not redirected, <a href="../" id="fallback">go to home</a>.</p>
+  </div>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var token = params.get('t') || (location.hash ? location.hash.slice(1) : '');
+      var path = location.pathname.replace(/\/$/, '').split('/').filter(Boolean);
+      var base = path.length > 1 ? '/' + path.slice(0, -1).join('/') : '';
+      var homeHref = base ? base + '/' : '../';
+
+      var appSlugs = ['offline-metro-map', 'pro-pdf', 'compass', 'starfollow', 'cat-directory', 'gali-cricket', 'dog-directory', 'wishing-status', 'card-game', 'geopolitics'];
+      var playUrls = {
+        'offline-metro-map': 'https://play.google.com/store/apps/details?id=com.prakshatech.appeight.appeight&hl=en_IN',
+        'pro-pdf': 'https://play.google.com/store/apps/details?id=com.prakshatech.appnine.appnine&hl=en_IN',
+        'compass': 'https://play.google.com/store/apps/details?id=com.prakshatech.appxiv.appxiv&hl=en_IN',
+        'starfollow': 'https://play.google.com/store/apps/details?id=com.prakshatech.appsix.appsix&hl=en_IN',
+        'cat-directory': 'https://play.google.com/store/apps/details?id=com.prakshatech.appfive.appfive&hl=en_IN',
+        'gali-cricket': 'https://play.google.com/store/apps/details?id=com.praksha.gali_cricket_app&hl=en_IN',
+        'dog-directory': 'https://play.google.com/store/apps/details?id=com.prakshaappfour.appfour&hl=en_IN',
+        'wishing-status': 'https://play.google.com/store/apps/details?id=com.praksha.newyearwish&hl=en_IN',
+        'card-game': 'https://play.google.com/store/apps/details?id=com.prakshaapptwo.apptwo&hl=en_IN',
+        'geopolitics': 'https://play.google.com/store/apps/details?id=com.prakshaappthree.appthree&hl=en_IN'
+      };
+
+      var target = null;
+      if (token && appSlugs.indexOf(token) !== -1) {
+        target = playUrls[token] || (base + '/' + token + '/');
+      }
+      if (target) {
+        document.getElementById('msg').innerHTML = 'Taking you to the app…';
+        document.getElementById('fallback').href = homeHref;
+        window.location.replace(target);
+      } else {
+        document.getElementById('msg').innerHTML = 'Invalid or missing link. <a href="' + homeHref + '" id="fallback">Go to home</a>.';
+        document.getElementById('fallback').href = homeHref;
+      }
+    })();
+  </script>
+</body>
+</html>

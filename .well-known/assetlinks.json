@@ -1,0 +1,82 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prakshatech.appeight.appeight",
+      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256_FINGERPRINT"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prakshatech.appnine.appnine",
+      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256_FINGERPRINT"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prakshatech.appxiv.appxiv",
+      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256_FINGERPRINT"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prakshatech.appsix.appsix",
+      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256_FINGERPRINT"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prakshatech.appfive.appfive",
+      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256_FINGERPRINT"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.praksha.gali_cricket_app",
+      "sha256_cert_fingerprints": ["25:FA:3F:F1:6E:EC:CE:4C:A6:8E:75:C0:23:FB:4D:DE:30:B4:AB:AD:38:C9:C9:46:27:12:CF:97:57:15:93:99"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prakshaappfour.appfour",
+      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256_FINGERPRINT"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.praksha.newyearwish",
+      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256_FINGERPRINT"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prakshaapptwo.apptwo",
+      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256_FINGERPRINT"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prakshaappthree.appthree",
+      "sha256_cert_fingerprints": ["19:D5:8D:67:EE:F3:1B:27:EA:C8:E2:49:66:2E:A3:76:B7:9F:D9:F3:F3:8A:74:BE:7C:A1:E6:33:5E:9F:C4:45"]
+    }
+  }
+]

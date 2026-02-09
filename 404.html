@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting…</title>
+</head>
+<body>
+  <p>Redirecting…</p>
+  <script>
+    (function () {
+      var path = location.pathname.replace(/\/$/, '');
+      var match = path.match(/^(\/[^/]+)?\/a\/(.+)$/);
+      if (match) {
+        var base = match[1] || '';
+        var token = match[2];
+        location.replace((base || '') + '/a/?t=' + encodeURIComponent(token));
+        return;
+      }
+      location.replace(location.pathname.replace(/\/[^/]*$/, '/') || '/');
+    })();
+  </script>
+</body>
+</html>
