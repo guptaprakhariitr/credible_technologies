@@ -10,42 +10,62 @@
 <body>
   <div class="redirect-page">
     <h1>Redirecting…</h1>
-    <p id="msg">If you are not redirected, <a href="../" id="fallback">go to home</a>.</p>
+    <p id="msg">
+      Opening Geopolitics &amp; Conflict Monitor. If nothing happens,
+      <a href="https://play.google.com/store/apps/details?id=com.prakshaappthree.appthree" id="storeLink">open it on Google Play</a>.
+    </p>
   </div>
   <script>
     (function () {
-      var params = new URLSearchParams(location.search);
-      var token = params.get('t') || (location.hash ? location.hash.slice(1) : '');
-      var path = location.pathname.replace(/\/$/, '').split('/').filter(Boolean);
-      var base = path.length > 1 ? '/' + path.slice(0, -1).join('/') : '';
-      var homeHref = base ? base + '/' : '../';
+      var msgEl = document.getElementById('msg');
+      var storeLink = document.getElementById('storeLink');
 
-      var appSlugs = ['offline-metro-map', 'pro-pdf', 'compass', 'starfollow', 'cat-directory', 'gali-cricket', 'dog-directory', 'wishing-status', 'card-game', 'geopolitics'];
-      var playUrls = {
-        'offline-metro-map': 'https://play.google.com/store/apps/details?id=com.prakshatech.appeight.appeight&hl=en_IN',
-        'pro-pdf': 'https://play.google.com/store/apps/details?id=com.prakshatech.appnine.appnine&hl=en_IN',
-        'compass': 'https://play.google.com/store/apps/details?id=com.prakshatech.appxiv.appxiv&hl=en_IN',
-        'starfollow': 'https://play.google.com/store/apps/details?id=com.prakshatech.appsix.appsix&hl=en_IN',
-        'cat-directory': 'https://play.google.com/store/apps/details?id=com.prakshatech.appfive.appfive&hl=en_IN',
-        'gali-cricket': 'https://play.google.com/store/apps/details?id=com.praksha.gali_cricket_app&hl=en_IN',
-        'dog-directory': 'https://play.google.com/store/apps/details?id=com.prakshaappfour.appfour&hl=en_IN',
-        'wishing-status': 'https://play.google.com/store/apps/details?id=com.praksha.newyearwish&hl=en_IN',
-        'card-game': 'https://play.google.com/store/apps/details?id=com.prakshaapptwo.apptwo&hl=en_IN',
-        'geopolitics': 'https://play.google.com/store/apps/details?id=com.prakshaappthree.appthree&hl=en_IN'
-      };
+      var path = window.location.pathname || '';
+      var q = new URLSearchParams(window.location.search || '');
+      var token = '';
 
-      var target = null;
-      if (token && appSlugs.indexOf(token) !== -1) {
-        target = playUrls[token] || (base + '/' + token + '/');
-      }
-      if (target) {
-        document.getElementById('msg').innerHTML = 'Taking you to the app…';
-        document.getElementById('fallback').href = homeHref;
-        window.location.replace(target);
+      // 1) Prefer ?t=TOKEN if present
+      if (q.has('t')) {
+        token = q.get('t');
       } else {
-        document.getElementById('msg').innerHTML = 'Invalid or missing link. <a href="' + homeHref + '" id="fallback">Go to home</a>.';
-        document.getElementById('fallback').href = homeHref;
+        // 2) Support subdirectory paths like /credible_technologies/a/<token>
+        var idx = path.indexOf('/a/');
+        if (idx !== -1) {
+          token = path.slice(idx + 3).split('/')[0].split('?')[0];
+        }
       }
+
+      var playStore = 'https://play.google.com/store/apps/details?id=com.prakshaappthree.appthree';
+      var appStore = 'https://apps.apple.com/app/idXXXXXXXXX'; // TODO: replace with real iOS App Store URL if you add an iOS app
+
+      if (!token) {
+        msgEl.textContent = 'Invalid or missing link.';
+        storeLink.href = playStore;
+        return;
+      }
+
+      var scheme = 'worldconflicts://article/' + token;
+      var ua = navigator.userAgent || '';
+      var isAndroid = /Android/i.test(ua);
+      var isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+      // Always set store link for manual tap
+      storeLink.href = isIOS ? appStore : playStore;
+
+      // Try to open app
+      if (isAndroid) {
+        window.location.href =
+          'intent://article/' + token +
+          '#Intent;scheme=worldconflicts;package=com.prakshaappthree.appthree;end';
+      } else {
+        window.location.href = scheme;
+      }
+
+      // Fallback to store after a short delay
+      setTimeout(function () {
+        msgEl.textContent = 'App not installed? Opening store…';
+        window.location.href = isIOS ? appStore : playStore;
+      }, 2500);
     })();
   </script>
 </body>

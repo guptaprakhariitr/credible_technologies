@@ -38,14 +38,7 @@
         '<a href="' + app.playUrl + '" target="_blank" rel="noopener" class="app-detail-cta">Get it on Google Play</a>';
     }
     if (body) {
-      var descHtml = '<p>' + escapeHtml(app.description) + '</p>';
-      if (app.screenshots && app.screenshots.length) {
-        descHtml += '<div class="app-screenshots"><h3>Screenshots</h3><div class="app-screenshots-list">' +
-          app.screenshots.map(function (url) {
-            return '<img src="' + escapeHtml(url) + '" alt="" loading="lazy" class="app-screenshot">';
-          }).join('') + '</div></div>';
-      }
-      body.innerHTML = descHtml;
+      body.innerHTML = '<p>' + escapeHtml(app.description) + '</p>';
     }
     document.title = app.name + ' | Credible Technologies Apps';
   }

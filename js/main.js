@@ -43,6 +43,22 @@
     wrap.parentNode.appendChild(clone);
   }
 
+  // Render \"featured app today\" pill in hero
+  function renderFeaturedToday(el) {
+    if (!window.CREDIBLE_APPS || !el) return;
+    var featured = window.CREDIBLE_APPS.filter(function (a) { return a.featured; });
+    var list = featured.length ? featured : window.CREDIBLE_APPS;
+    if (!list.length) return;
+    var pick = list[Math.floor(Math.random() * list.length)];
+    var href = pick.playUrl || (BASE.replace(/\/$/, '') + '/' + pick.slug + '/');
+    el.innerHTML =
+      '<span class=\"featured-today-label\">Featured today</span>' +
+      '<span>\u2014</span>' +
+      '<a href=\"' + escapeHtml(href) + '\" target=\"_blank\" rel=\"noopener\">' +
+      escapeHtml(pick.name) +
+      '</a>';
+  }
+
   // Render random suggested app line
   function renderSuggestedApp(el) {
     if (!window.CREDIBLE_APPS || !el) return;
@@ -90,6 +106,8 @@
     initReveal();
     initHeader();
     initMarquee();
+    var featuredToday = document.getElementById('featured-today');
+    if (featuredToday) renderFeaturedToday(featuredToday);
     var suggested = document.getElementById('suggested-app');
     if (suggested) renderSuggestedApp(suggested);
     var grid = document.getElementById('app-grid');
