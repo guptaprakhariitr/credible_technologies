@@ -522,3 +522,53 @@ section {
   .reveal { transition: none; }
   .marquee { animation: none; }
 }
+
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .site-header .container {
+    padding: 0 0.75rem;
+  }
+  .nav-links {
+    gap: 1rem;
+  }
+  .nav-links a {
+    font-size: 0.8rem;
+  }
+
+  .hero {
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+  h1, .hero-title {
+    font-size: clamp(2.3rem, 8vw, 3.3rem);
+    line-height: 1.15;
+  }
+  .hero-subtitle {
+    max-width: 34ch;
+  }
+  .featured-today {
+    display: block;
+    text-align: left;
+    line-height: 1.5;
+  }
+
+  .app-grid {
+    grid-template-columns: 1fr;
+  }
+  .app-card {
+    padding: 1.25rem;
+  }
+
+  .steps-list {
+    gap: 1.5rem;
+  }
+
+  .marquee span {
+    font-size: 1.05rem;
+    gap: 2rem;
+  }
+
+  .stats-strip {
+    gap: 2rem;
+  }
+}
