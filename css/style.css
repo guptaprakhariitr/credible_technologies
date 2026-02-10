@@ -526,10 +526,13 @@ section {
 /* Mobile tweaks */
 @media (max-width: 640px) {
   .site-header .container {
-    padding: 0 0.75rem;
+    padding: 0.5rem 0.9rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
   }
   .nav-links {
-    gap: 1rem;
+    gap: 1.25rem;
   }
   .nav-links a {
     font-size: 0.8rem;
