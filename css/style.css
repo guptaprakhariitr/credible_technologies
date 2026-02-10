@@ -7,8 +7,8 @@
   --accent: #22c55e;
   --accent-hover: #16a34a;
   --border: rgba(255,255,255,0.08);
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-display: "Instrument Serif", "Georgia", serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --space: clamp(1.5rem, 4vw, 4rem);
   --container: min(1200px, 100vw - 2rem);
 }
@@ -27,7 +27,7 @@ body {
   font-family: var(--font-sans);
   background: var(--bg);
   color: var(--fg);
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-x: hidden;
 }
 
@@ -36,8 +36,8 @@ h1, .hero-title {
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(2.5rem, 8vw, 5rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
 }
 
 .condensed-headline {
@@ -221,6 +221,12 @@ section {
   max-width: 50ch;
   margin-left: auto;
   margin-right: auto;
+}
+.suggested-text {
+  text-align: center;
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.75rem;
 }
 .app-grid {
   display: grid;
