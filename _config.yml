@@ -1,0 +1,4 @@
+# Include .well-known so assetlinks.json is deployed for Android App Links
+# (Jekyll ignores dot-directories by default.)
+include:
+  - .well-known
