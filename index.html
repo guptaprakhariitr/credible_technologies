@@ -124,7 +124,7 @@
         <span>Dog Directory</span>
         <span>Wishing Status</span>
         <span>22 Card Game</span>
-        <span>Geopolitics Monitor</span>
+        <span>InSnaps : Geopolitics Monitor</span>
         <span>Useful. Focused. Credible.</span>
       </div>
     </div>
@@ -154,11 +154,7 @@
   <script>
     (function () {
       var t = new URLSearchParams(location.search).get('t');
-      if (t) {
-        var path = location.pathname.replace(/\/$/, '').split('/').filter(Boolean);
-        var base = path.length > 1 ? '/' + path.slice(0, -1).join('/') : (path[0] && path[0] !== 'index.html' ? '/' + path[0] : '');
-        location.replace((base || '') + '/a/?t=' + encodeURIComponent(t));
-      }
+      if (t) location.replace('/a/?t=' + encodeURIComponent(t));
     })();
   </script>
 </body>

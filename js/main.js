@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  // Base path for GitHub Pages (e.g. /website_credible or '' if at root)
+  // Base path: use root when script has data-base (e.g. data-base="" for custom domain at root)
   function getBase() {
     var b = document.querySelector('script[data-base]');
-    if (b && b.getAttribute('data-base') !== '') return (b.getAttribute('data-base') || '').replace(/\/$/, '');
+    if (b) return (b.getAttribute('data-base') || '').replace(/\/$/, '');
     var parts = location.pathname.replace(/\/$/, '').split('/').filter(Boolean);
     if (parts.length && parts[0] !== 'index.html') return '/' + parts[0];
     return '';
