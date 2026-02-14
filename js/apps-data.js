@@ -119,7 +119,7 @@ window.CREDIBLE_APPS = [
   {
     id: 'com.prakshaappthree.appthree',
     slug: 'geopolitics',
-    name: 'Geopolitics & Conflict Monitor',
+    name: 'InSnaps : Geopolitics & Conflict Monitor',
     tagline: 'Real-Time Global Awareness',
     shortDesc: 'Track conflicts, geopolitics, and crises with an interactive map and verified multi-source news.',
     featured: true,

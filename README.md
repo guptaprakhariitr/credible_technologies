@@ -52,6 +52,6 @@ Data is in **`js/apps-data.js`**. Current apps:
 - Dog Directory, Guide, Pets App  
 - Wishing Status & Story App  
 - World Famous 22 Card Game Free  
-- Geopolitics & Conflict Monitor  
+- InSnaps : Geopolitics & Conflict Monitor  
 
 To add or edit apps, update `CREDIBLE_APPS` in `js/apps-data.js` and add an `index.html` under a new `/<slug>/` folder if needed.
