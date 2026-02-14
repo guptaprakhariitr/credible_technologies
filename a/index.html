@@ -3,69 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting… | Credible Technologies Apps</title>
+  <title>Open in app | Credible Technologies</title>
   <link rel="stylesheet" href="../css/style.css">
-  <style>.redirect-page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }</style>
+  <style>
+    .redirect-page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; max-width: 36rem; margin: 0 auto; }
+    .redirect-page h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .redirect-page p { color: var(--fg-muted, #888); margin: 0.5rem 0; line-height: 1.6; }
+    .redirect-page a { color: var(--accent, #22c55e); }
+    .redirect-page .btn { display: inline-block; margin: 0.75rem 0.25rem 0; padding: 0.6rem 1.2rem; background: var(--accent); color: #fff; text-decoration: none; border-radius: 6px; font-weight: 500; }
+    .redirect-page .article-link-wrap { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border, rgba(255,255,255,0.1)); }
+    .redirect-page .article-link-wrap a { word-break: break-all; }
+  </style>
 </head>
 <body>
   <div class="redirect-page">
-    <h1>Redirecting…</h1>
-    <p id="msg">
-      Opening Geopolitics &amp; Conflict Monitor. If nothing happens,
-      <a href="https://play.google.com/store/apps/details?id=com.prakshaappthree.appthree" id="storeLink">open it on Google Play</a>.
-    </p>
+    <!-- Android: script redirects immediately; this is fallback. Non-Android: script shows non-android content. -->
+    <div id="android-view">
+      <h1>Redirecting…</h1>
+      <p id="msg">Opening Geopolitics &amp; Conflict Monitor. If nothing happens, <a href="https://play.google.com/store/apps/details?id=com.prakshaappthree.appthree" id="storeLink">open it on Google Play</a>.</p>
+    </div>
+    <div id="non-android-view" style="display: none;">
+      <h1>Geopolitics &amp; Conflict Monitor</h1>
+      <p>This link opens an article in our <strong>Android app</strong>. Get the app to read it there, or use the direct article link below to open it in your browser.</p>
+      <a href="https://play.google.com/store/apps/details?id=com.prakshaappthree.appthree" id="storeLinkOther" class="btn">Get the app on Google Play</a>
+      <div id="article-link-wrap" class="article-link-wrap" style="display: none;">
+        <p><strong>Or read the article directly in your browser:</strong></p>
+        <p><a href="#" id="articleDirectLink" target="_blank" rel="noopener"></a></p>
+      </div>
+    </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js" crossorigin="anonymous"></script>
   <script>
     (function () {
-      var msgEl = document.getElementById('msg');
-      var storeLink = document.getElementById('storeLink');
+      // Encoding key (same as ArticleDeepLinkService._encodingKey). For stricter secrecy use a server or build-time secret.
+      var ENCODING_KEY = 'WcM_Art_Lnk_2025_Sec';
+
+      function base64UrlDecode(str) {
+        var pad = str.length % 4;
+        if (pad) str += '==='.slice(0, 4 - pad);
+        str = str.replace(/-/g, '+').replace(/_/g, '/');
+        var binary = atob(str);
+        var bytes = new Uint8Array(binary.length);
+        for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        return bytes;
+      }
+
+      function xorBytes(data, keyStr) {
+        var key = [];
+        for (var i = 0; i < keyStr.length; i++) key.push(keyStr.charCodeAt(i));
+        if (key.length === 0) return data;
+        var out = new Uint8Array(data.length);
+        for (var i = 0; i < data.length; i++) out[i] = data[i] ^ key[i % key.length];
+        return out;
+      }
+
+      function decodeArticleToken(token) {
+        if (!token || !token.trim()) return null;
+        try {
+          var raw = base64UrlDecode(token.trim());
+          var xored = xorBytes(raw, ENCODING_KEY);
+          try {
+            var decompressed = pako.inflate(xored);
+            return new TextDecoder('utf-8').decode(decompressed);
+          } catch (_) {
+            return new TextDecoder('utf-8').decode(xored);
+          }
+        } catch (e) {
+          return null;
+        }
+      }
 
       var path = window.location.pathname || '';
       var q = new URLSearchParams(window.location.search || '');
       var token = '';
-
-      // 1) Prefer ?t=TOKEN if present
       if (q.has('t')) {
         token = q.get('t');
       } else {
-        // 2) Support subdirectory paths like /credible_technologies/a/<token>
         var idx = path.indexOf('/a/');
-        if (idx !== -1) {
-          token = path.slice(idx + 3).split('/')[0].split('?')[0];
-        }
+        if (idx !== -1) token = path.slice(idx + 3).split('/')[0].split('?')[0];
       }
 
       var playStore = 'https://play.google.com/store/apps/details?id=com.prakshaappthree.appthree';
-      var appStore = 'https://apps.apple.com/app/idXXXXXXXXX'; // TODO: replace with real iOS App Store URL if you add an iOS app
+      var appStore = 'https://apps.apple.com/app/idXXXXXXXXX';
+      var scheme = 'worldconflicts://article/' + token;
+
+      var msgEl = document.getElementById('msg');
+      var storeLink = document.getElementById('storeLink');
+      var androidView = document.getElementById('android-view');
+      var nonAndroidView = document.getElementById('non-android-view');
+      var storeLinkOther = document.getElementById('storeLinkOther');
+      var articleLinkWrap = document.getElementById('article-link-wrap');
+      var articleDirectLink = document.getElementById('articleDirectLink');
 
       if (!token) {
+        androidView.style.display = 'block';
+        nonAndroidView.style.display = 'none';
         msgEl.textContent = 'Invalid or missing link.';
-        storeLink.href = playStore;
+        if (storeLink) storeLink.href = playStore;
         return;
       }
 
-      var scheme = 'worldconflicts://article/' + token;
       var ua = navigator.userAgent || '';
       var isAndroid = /Android/i.test(ua);
-      var isIOS = /iPhone|iPad|iPod/i.test(ua);
+      if (!ua) isAndroid = true;
 
-      // Always set store link for manual tap
-      storeLink.href = isIOS ? appStore : playStore;
-
-      // Try to open app
       if (isAndroid) {
+        androidView.style.display = 'block';
+        nonAndroidView.style.display = 'none';
+        if (storeLink) storeLink.href = playStore;
         window.location.href =
           'intent://article/' + token +
           '#Intent;scheme=worldconflicts;package=com.prakshaappthree.appthree;end';
-      } else {
-        window.location.href = scheme;
+        setTimeout(function () {
+          if (msgEl) msgEl.textContent = 'App not installed? Opening store…';
+          window.location.href = playStore;
+        }, 2500);
+        return;
       }
 
-      // Fallback to store after a short delay
-      setTimeout(function () {
-        msgEl.textContent = 'App not installed? Opening store…';
-        window.location.href = isIOS ? appStore : playStore;
-      }, 2500);
+      // Non-Android: show landing page with "Get app" and optional direct article link
+      androidView.style.display = 'none';
+      nonAndroidView.style.display = 'block';
+      if (storeLinkOther) storeLinkOther.href = playStore;
+
+      var realUrl = decodeArticleToken(token);
+      if (realUrl && articleLinkWrap && articleDirectLink) {
+        articleDirectLink.href = realUrl;
+        articleDirectLink.textContent = realUrl;
+        articleLinkWrap.style.display = 'block';
+      }
     })();
   </script>
 </body>
