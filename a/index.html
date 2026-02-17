@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HQQCZ7SLN5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HQQCZ7SLN5');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Open in app | Credible Technologies</title>
@@ -104,6 +112,14 @@
         msgEl.textContent = 'Invalid or missing link.';
         if (storeLink) storeLink.href = playStore;
         return;
+      }
+
+      // Track deep link redirect event
+      if (window.gtag) {
+        gtag('event', 'article_deep_link', {
+          'event_category': 'deep_link',
+          'event_label': 'worldconflicts_article'
+        });
       }
 
       var ua = navigator.userAgent || '';
