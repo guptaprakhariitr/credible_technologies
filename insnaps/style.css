@@ -1279,6 +1279,60 @@ a:hover { color: var(--accent-light); }
 }
 
 /* ============================
+   FLOATING DOWNLOAD BUTTON
+   ============================ */
+.fab-download {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: white;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  box-shadow: 0 6px 28px rgba(20, 184, 166, 0.45), 0 2px 8px rgba(0,0,0,0.2);
+  transition: background 0.2s, transform 0.25s, box-shadow 0.25s, opacity 0.4s;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+.fab-download.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.fab-download:hover {
+  background: var(--accent-light);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 36px rgba(20, 184, 166, 0.55), 0 4px 12px rgba(0,0,0,0.15);
+}
+.fab-download:active {
+  transform: translateY(0);
+}
+.fab-download svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.fab-label {
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .fab-download {
+    padding: 0.75rem 1.1rem;
+    font-size: 0.82rem;
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+/* ============================
    DOWNLOAD COUNTER
    ============================ */
 .download-counter {

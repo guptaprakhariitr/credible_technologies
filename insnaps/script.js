@@ -281,6 +281,20 @@
     }
   })();
 
+  // --- Floating Download Button (show after hero, hide at final CTA) ---
+  var fab = document.getElementById('fabDownload');
+  var ctaSection = document.querySelector('.cta-final');
+  if (fab) {
+    function updateFab() {
+      var scrollY = window.scrollY;
+      var pastHero = scrollY > window.innerHeight * 0.6;
+      var atCta = ctaSection && ctaSection.getBoundingClientRect().top < window.innerHeight;
+      fab.classList.toggle('visible', pastHero && !atCta);
+    }
+    window.addEventListener('scroll', updateFab, { passive: true });
+    updateFab();
+  }
+
   // --- Smooth scroll for anchor links ---
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
