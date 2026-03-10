@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "functions": {
+    "api/create-checkout-session.js": { "memory": 128 }
+  }
+}
